@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="GTA 6 Chapter 2 — design foundation. Placeholder preview of the visual design system.">
+<title>GTA 6 Chapter 2 — Design Foundation</title>
+<style>
+/* ============================================================
+   GTA 6 CHAPTER 2 — DESIGN FOUNDATION (Phase 1)
+   Visual design system only. All content below is placeholder
+   and will be replaced by the structure supplied in Phase 2.
+   No artwork, logo, or text is copied from any other website.
+   ============================================================ */
+
+/* ---------- Design tokens ---------- */
+:root{
+  /* Surfaces */
+  --bg:            #060612;
+  --bg-header:     #04040c;
+  --bg-footer:     #08081a;
+  --surface:       #101024;
+  --surface-2:     #1a1a38;
+  --surface-input: #12122a;
+  /* Borders / dividers */
+  --border:        #23234a;
+  --border-card:   #2a2a4a;
+  --border-frame:  #1e1e4a;
+  /* Text */
+  --text:          #f5f5ff;
+  --text-body:     #c9c9da;
+  --text-muted:    #9a9ab0;
+  /* Accents */
+  --purple:        #7c3aed;
+  --violet:        #8b5cf6;
+  --pink:          #e91e8c;
+  --magenta:       #ff2e88;
+  --cyan:          #22d3ee;
+  --cyan-bright:   #00e5ff;
+  --amber:         #facc15;
+  --gradient:      linear-gradient(90deg, #7c3aed 0%, #e91e8c 100%);
+  /* Shape */
+  --radius-lg:     22px;
+  --radius-md:     16px;
+  --radius-sm:     10px;
+  --radius-pill:   999px;
+  /* Layout */
+  --frame-max:     1422px;
+  --measure:       770px;
+  --rows-max:      860px;
+  --header-h:      78px;
+  --gutter:        20px;
+  /* Type */
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --lh-body:       1.6;
+}
+
+/* ---------- Base ---------- */
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  font-family:var(--font);
+  font-size:18px;
+  line-height:var(--lh-body);
+  font-weight:400;
+  color:var(--text-body);
+  background-color:var(--bg);
+  overflow-x:hidden;
+}
+/* Faint star-dot field (original CSS pattern, no image assets) */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-image:
+    radial-gradient(rgba(255,255,255,.13) 1px, transparent 1.5px),
+    radial-gradient(rgba(34,211,238,.12) 1px, transparent 1.5px);
+  background-size:96px 96px, 148px 148px;
+  background-position:0 0, 48px 72px;
+  opacity:.5;
+}
+h1,h2,h3,h4{ color:var(--text); margin:0; line-height:1.08; font-weight:800; }
+p{ margin:0; }
+a{ color:var(--magenta); text-decoration:none; }
+a:hover{ color:var(--text); }
+img,svg{ display:block; max-width:100%; }
+button,input{ font:inherit; }
+:focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; border-radius:4px; }
+
+.skip-link{
+  position:absolute; left:16px; top:-60px; z-index:200;
+  background:var(--text); color:#060612; font-weight:700;
+  padding:10px 16px; border-radius:var(--radius-sm);
+}
+.skip-link:focus{ top:16px; }
+
+/* ---------- Demo notice (scaffold only — remove in Phase 2) ---------- */
+.demo-notice{
+  max-width:var(--frame-max);
+  margin:14px auto 0;
+  padding:0 var(--gutter);
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  text-align:center;
+}
+.demo-notice strong{ color:var(--cyan); font-weight:700; }
+
+/* ---------- Outer frame ---------- */
+.frame{
+  max-width:var(--frame-max);
+  margin:12px auto 16px;
+  padding:0 var(--gutter);
+  border:1px solid var(--border-frame);
+  border-radius:var(--radius-lg);
+  background:transparent;
+}
+
+/* ---------- Header ---------- */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  height:var(--header-h);
+  display:flex;
+  align-items:center;
+  gap:28px;
+  background:var(--bg-header);
+  border-bottom:1px solid transparent;
+  box-shadow:0 1px 0 rgba(124,58,237,.55), 0 6px 24px rgba(124,58,237,.12);
+}
+.brand{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  line-height:1;
+  flex:0 0 auto;
+  color:var(--text);
+}
+.brand:hover{ color:var(--text); }
+.brand__line{
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.brand__line .brand__chapter{ color:var(--magenta); }
+.brand__sub{
+  margin-top:5px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:var(--cyan);
+  white-space:nowrap;
+}
+.main-nav{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:30px;
+}
+.main-nav a{
+  color:var(--text);
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  transition:color .2s ease;
+}
+.main-nav a:hover{ color:var(--magenta); }
+
+/* ---------- Buttons / pills ---------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:0;
+  cursor:pointer;
+  font-size:17px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:#fff;
+  background:var(--gradient);
+  padding:14px 27px;
+  border-radius:var(--radius-sm);
+  box-shadow:0 0 24px rgba(233,30,140,.28);
+  transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  white-space:nowrap;
+}
+.btn:hover{ color:#fff; filter:brightness(1.08); transform:translateY(-1px); box-shadow:0 0 32px rgba(233,30,140,.4); }
+.btn:active{ transform:translateY(0); }
+.btn--outline{
+  background:transparent;
+  color:var(--text);
+  border:1.5px solid var(--pink);
+  box-shadow:none;
+  padding:15px 32px;
+}
+.btn--outline:hover{ color:#fff; background:rgba(233,30,140,.12); filter:none; box-shadow:none; }
+.pill{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 14px;
+  border-radius:var(--radius-pill);
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#fff;
+  background:var(--gradient);
+}
+.pill--ghost{
+  background:rgba(6,6,18,.72);
+  border:1px solid var(--cyan);
+  color:var(--cyan);
+}
+.pill--amber{
+  background:rgba(6,6,18,.72);
+  border:1px solid var(--amber);
+  color:var(--amber);
+}
+
+/* Hamburger (mobile) */
+.nav-toggle{
+  display:none;
+  margin-left:auto;
+  width:48px; height:48px;
+  border:1px solid var(--border-card);
+  border-radius:var(--radius-sm);
+  background:transparent;
+  cursor:pointer;
+  align-items:center;
+  justify-content:center;
+}
+.nav-toggle span{
+  display:block;
+  width:22px; height:2px;
+  background:var(--text);
+  border-radius:2px;
+  position:relative;
+  transition:background .2s ease;
+}
+.nav-toggle span::before,
+.nav-toggle span::after{
+  content:"";
+  position:absolute; left:0;
+  width:22px; height:2px;
+  background:var(--text);
+  border-radius:2px;
+  transition:transform .2s ease, top .2s ease;
+}
+.nav-toggle span::before{ top:-7px; }
+.nav-toggle span::after{ top:7px; }
+.nav-toggle[aria-expanded="true"] span{ background:transparent; }
+.nav-toggle[aria-expanded="true"] span::before{ top:0; transform:rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::after{ top:0; transform:rotate(-45deg); }
+
+/* ---------- Sections / rhythm ---------- */
+.section{ padding:96px 0; }
+.section + .section{ border-top:1px solid var(--border); }
+.section--tight{ padding:72px 0; }
+.eyebrow{
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--cyan);
+  margin-bottom:18px;
+}
+.section h2{
+  font-size:clamp(30px, 4vw, 40px);
+  text-transform:uppercase;
+  letter-spacing:.01em;
+  margin-bottom:28px;
+}
+.section h2.boxed{
+  display:inline-block;
+  font-size:clamp(24px, 3vw, 30px);
+  border:2px solid #fff;
+  border-radius:7px;
+  padding:12px 20px;
+  background:transparent;
+}
+.lede{
+  font-size:19px;
+  font-weight:600;
+  color:var(--text);
+}
+.meta{
+  font-size:15px;
+  color:var(--text-muted);
+}
+.narrow{
+  max-width:var(--measure);
+  margin:0 auto;
+}
+.narrow p + p{ margin-top:20px; }
+.narrow a{ font-weight:600; }
+
+/* ---------- Hero ---------- */
+.hero{ padding:56px 0 96px; }
+.hero-media{
+  position:relative;
+  aspect-ratio:16/9;
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  background:
+    radial-gradient(120% 140% at 18% 0%, rgba(124,58,237,.55) 0%, transparent 55%),
+    radial-gradient(120% 140% at 88% 100%, rgba(233,30,140,.5) 0%, transparent 55%),
+    linear-gradient(135deg, #141433 0%, #1a1a38 52%, #241031 100%);
+  border:1px solid var(--border);
+}
+.hero-media::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 52%, rgba(0,0,0,.62) 100%);
+}
+.hero-media__label{
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  z-index:1;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:rgba(245,245,255,.75);
+  text-align:center;
+  padding:0 20px;
+}
+.hero-media__scrim-title{
+  position:absolute;
+  left:28px; right:28px; bottom:24px;
+  z-index:2;
+  font-size:clamp(22px, 3.4vw, 34px);
+  font-weight:800;
+  text-transform:uppercase;
+  color:#fff;
+  line-height:1.15;
+}
+.hero-body{ margin-top:40px; }
+.hero-body h1{
+  font-size:clamp(44px, 6.4vw, 68px);
+  font-weight:900;
+  text-transform:uppercase;
+  line-height:1.05;
+  letter-spacing:.005em;
+  margin:0 0 22px;
+}
+.hero-body h1 .accent{ color:var(--magenta); }
+.hero-body .lede{ max-width:820px; }
+.hero-body .meta{ margin-top:18px; }
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-top:30px;
+}
+
+/* ---------- Card grid ---------- */
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:24px;
+}
+.card{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+.card__media{
+  position:relative;
+  aspect-ratio:16/10;
+  border-radius:var(--radius-md);
+  overflow:hidden;
+  background:linear-gradient(135deg, #1a1a38 0%, #2a1550 55%, #3a1040 100%);
+  border:1px solid var(--border);
+}
+.card__media--b{ background:linear-gradient(135deg, #0d2b3a 0%, #12294a 55%, #1a1a38 100%); }
+.card__media--c{ background:linear-gradient(135deg, #33102e 0%, #461a3a 55%, #1a1a38 100%); }
+.card__media::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 46%, rgba(0,0,0,.66) 100%);
+}
+.card__media-label{
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:rgba(245,245,255,.7);
+  text-align:center;
+  padding:0 16px;
+}
+.card__media .pill{ position:absolute; left:16px; bottom:16px; z-index:2; }
+.card__title{
+  font-size:26px;
+  font-weight:800;
+  line-height:1.2;
+  margin:18px 0 10px;
+}
+.card__title a{ color:var(--text); }
+.card__title a:hover{ color:var(--magenta); }
+.card__text{ font-size:17px; }
+.card__link{
+  display:inline-block;
+  margin-top:14px;
+  font-weight:700;
+  font-size:16px;
+}
+.load-more{
+  display:flex;
+  justify-content:center;
+  margin-top:48px;
+}
+
+/* ---------- Detail rows ---------- */
+.rows{
+  max-width:var(--rows-max);
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:80px;
+}
+.row{
+  display:grid;
+  grid-template-columns:300px 1fr;
+  gap:36px;
+  align-items:start;
+}
+.row__media{
+  aspect-ratio:16/10;
+  border-radius:var(--radius-md);
+  background:linear-gradient(135deg, #1a1a38 0%, #2a1550 100%);
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:rgba(245,245,255,.65);
+  text-align:center;
+  padding:16px;
+}
+.row__index{
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.14em;
+  color:var(--text-muted);
+  text-transform:uppercase;
+}
+.row h3{
+  font-size:clamp(24px, 3vw, 29px);
+  margin:10px 0 12px;
+}
+.row p + p{ margin-top:14px; }
+
+/* ---------- Info cards ---------- */
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:16px;
+}
+.info-card{
+  background:var(--surface);
+  border:1px solid var(--border-card);
+  border-radius:var(--radius-md);
+  padding:28px;
+}
+.info-card h3{ font-size:24px; margin-bottom:12px; }
+.info-card p + p{ margin-top:12px; }
+
+/* ---------- Newsletter ---------- */
+.newsletter{ text-align:left; }
+.newsletter h2{ margin-bottom:14px; }
+.newsletter p{ max-width:640px; }
+.newsletter-form{
+  display:flex;
+  gap:12px;
+  max-width:640px;
+  margin-top:26px;
+}
+.newsletter-form input{
+  flex:1 1 auto;
+  min-width:0;
+  height:52px;
+  padding:0 18px;
+  color:var(--text);
+  background:var(--surface-input);
+  border:1px solid var(--violet);
+  border-radius:var(--radius-sm);
+}
+.newsletter-form input::placeholder{ color:var(--text-muted); }
+.newsletter-note{ margin-top:14px; font-size:15px; color:var(--text-muted); }
+
+/* ---------- Footer ---------- */
+.site-footer{
+  border-top:1px solid var(--border);
+  background:var(--bg-footer);
+  padding:64px 0 0;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1.2fr;
+  gap:48px;
+  padding-bottom:56px;
+}
+.footer-brand p{ margin-top:16px; font-size:17px; max-width:340px; }
+.social-row{
+  display:flex;
+  gap:12px;
+  margin-top:24px;
+}
+.social-btn{
+  width:44px; height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--border-card);
+  border-radius:50%;
+  color:var(--text-body);
+  transition:border-color .2s ease, color .2s ease;
+}
+.social-btn:hover{ border-color:var(--magenta); color:#fff; }
+.social-btn svg{ width:19px; height:19px; }
+.footer-col h3{
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+.footer-links{
+  list-style:none;
+  margin:0; padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.footer-links a{
+  color:var(--text-body);
+  font-size:17px;
+}
+.footer-links a:hover{ color:var(--magenta); }
+.footer-legal{
+  border-top:1px solid var(--border);
+  padding:26px 0 30px;
+  font-size:15px;
+  color:var(--text-muted);
+}
+.footer-legal nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 0;
+  margin-bottom:14px;
+}
+.footer-legal nav a{ color:var(--text-body); font-size:15px; }
+.footer-legal nav a:hover{ color:var(--magenta); }
+.footer-legal nav span{ margin:0 10px; color:var(--text-muted); }
+.footer-legal p + p{ margin-top:8px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1080px){
+  .card-grid{ grid-template-columns:repeat(2, 1fr); }
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+  .footer-col--news{ grid-column:1 / -1; }
+}
+@media (max-width: 900px){
+  body{ font-size:17px; }
+  .nav-toggle{ display:inline-flex; }
+  .main-nav{
+    display:none;
+    position:absolute;
+    top:calc(var(--header-h) - 1px);
+    left:0; right:0;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    padding:12px 20px 20px;
+    background:var(--bg-header);
+    border-bottom:1px solid var(--border);
+    box-shadow:0 24px 32px rgba(0,0,0,.45);
+  }
+  .main-nav.is-open{ display:flex; }
+  .main-nav a{
+    padding:14px 4px;
+    border-bottom:1px solid var(--border);
+    font-size:17px;
+  }
+  .main-nav a:last-child{ border-bottom:0; }
+  .main-nav .btn{ margin-top:16px; width:100%; }
+  .site-header{ gap:16px; }
+  .section{ padding:72px 0; }
+  .hero{ padding:40px 0 72px; }
+}
+@media (max-width: 640px){
+  .frame{ margin:8px auto 12px; padding:0 14px; }
+  .demo-notice{ padding:0 14px; }
+  .brand__line{ font-size:24px; }
+  .brand__sub{ font-size:9px; letter-spacing:.28em; }
+  .card-grid{ grid-template-columns:1fr; }
+  .row{ grid-template-columns:1fr; gap:20px; }
+  .rows{ gap:56px; }
+  .info-grid{ grid-template-columns:1fr; }
+  .footer-grid{ grid-template-columns:1fr; gap:40px; }
+  .newsletter-form{ flex-direction:column; }
+  .newsletter-form .btn{ width:100%; }
+  .hero-media__scrim-title{ left:18px; right:18px; bottom:18px; }
+  .section{ padding:60px 0; }
+}
+@media (max-width: 400px){
+  .brand__line{ font-size:21px; }
+}
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ transition:none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<p class="demo-notice"><strong>Design foundation preview.</strong> All headings, text, images, and links on this page are placeholders for Phase 2 structure.</p>
+
+<div class="frame">
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="GTA 6 Chapter 2 — home">
+      <span class="brand__line">GTA 6 <span class="brand__chapter">Chapter 2</span></span>
+      <span class="brand__sub">Port Gellhorn Guides</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation">
+      <span aria-hidden="true"></span>
+    </button>
+
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+      <a href="#placeholder">Nav Link</a>
+      <a href="#placeholder">Nav Link</a>
+      <a href="#placeholder">Nav Link</a>
+      <a href="#placeholder">Nav Link</a>
+      <a href="#placeholder">Nav Link</a>
+      <a class="btn" href="#placeholder">Button</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ================= HERO (placeholder) ================= -->
+    <section class="hero" aria-label="Page introduction placeholder">
+      <div class="hero-media" role="img" aria-label="Hero image placeholder">
+        <span class="hero-media__label">Hero image placeholder &middot; 16:9</span>
+        <span class="hero-media__scrim-title">Placeholder hero title over image</span>
+      </div>
+      <div class="hero-body">
+        <p class="eyebrow">Eyebrow label placeholder</p>
+        <h1>Placeholder <span class="accent">headline</span> goes here</h1>
+        <p class="lede">Placeholder introductory paragraph. This lede demonstrates the semibold introductory text style, its size, measure, and spacing below the main headline.</p>
+        <p class="meta">Meta line placeholder &middot; Updated date placeholder</p>
+        <div class="hero-actions">
+          <a class="btn" href="#placeholder">Primary button</a>
+          <a class="btn btn--outline" href="#placeholder">Outline button</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= NARROW TEXT COLUMN (placeholder) ================= -->
+    <section class="section" aria-label="Text column placeholder">
+      <div class="narrow">
+        <h2>Section heading placeholder</h2>
+        <p>Placeholder body copy. This centered narrow column demonstrates the reading experience: text width, paragraph spacing, line height, and the secondary body text color against the dark background.</p>
+        <p>A second placeholder paragraph shows the gap between paragraphs, and an <a href="#placeholder">inline link placeholder</a> shows the link color and hover treatment used inside body copy.</p>
+        <p>A third paragraph keeps the rhythm visible across a longer block, so heading-to-text spacing and paragraph-to-paragraph spacing can be judged at a glance.</p>
+      </div>
+    </section>
+
+    <!-- ================= BOXED H2 + CARD GRID (placeholders) ================= -->
+    <section class="section" aria-label="Card grid placeholder">
+      <h2 class="boxed">Boxed heading placeholder</h2>
+      <div class="card-grid" style="margin-top:36px;">
+        <article class="card">
+          <div class="card__media" role="img" aria-label="Card image placeholder">
+            <span class="card__media-label">Image placeholder</span>
+            <span class="pill">Pill label</span>
+          </div>
+          <h3 class="card__title"><a href="#placeholder">Card title placeholder</a></h3>
+          <p class="card__text">Placeholder card description demonstrating title size, body size, and spacing below an image card.</p>
+          <a class="card__link" href="#placeholder">Card link placeholder</a>
+        </article>
+        <article class="card">
+          <div class="card__media card__media--b" role="img" aria-label="Card image placeholder">
+            <span class="card__media-label">Image placeholder</span>
+            <span class="pill pill--amber">Pill label</span>
+          </div>
+          <h3 class="card__title"><a href="#placeholder">Card title placeholder</a></h3>
+          <p class="card__text">Placeholder card description demonstrating title size, body size, and spacing below an image card.</p>
+          <a class="card__link" href="#placeholder">Card link placeholder</a>
+        </article>
+        <article class="card">
+          <div class="card__media card__media--c" role="img" aria-label="Card image placeholder">
+            <span class="card__media-label">Image placeholder</span>
+            <span class="pill pill--ghost">Pill label</span>
+          </div>
+          <h3 class="card__title"><a href="#placeholder">Card title placeholder</a></h3>
+          <p class="card__text">Placeholder card description demonstrating title size, body size, and spacing below an image card.</p>
+          <a class="card__link" href="#placeholder">Card link placeholder</a>
+        </article>
+      </div>
+      <div class="load-more">
+        <button class="btn btn--outline" type="button">Load more</button>
+      </div>
+    </section>
+
+    <!-- ================= DETAIL ROWS (placeholders) ================= -->
+    <section class="section" aria-label="Detail rows placeholder">
+      <div class="rows">
+        <article class="row">
+          <div class="row__media" role="img" aria-label="Row image placeholder">Image placeholder</div>
+          <div>
+            <p class="row__index">Item 01 &middot; Label placeholder</p>
+            <h3>Row title placeholder</h3>
+            <p>Placeholder row copy. Detail rows use no card background or border: an image at the left, text at the right, separated by generous vertical gaps.</p>
+            <p><a href="#placeholder">Row link placeholder</a></p>
+          </div>
+        </article>
+        <article class="row">
+          <div class="row__media" role="img" aria-label="Row image placeholder">Image placeholder</div>
+          <div>
+            <p class="row__index">Item 02 &middot; Label placeholder</p>
+            <h3>Row title placeholder</h3>
+            <p>Placeholder row copy. A second row shows the repeated rhythm and the spacing between rows in a longer list.</p>
+            <p><a href="#placeholder">Row link placeholder</a></p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= INFO CARDS (placeholders) ================= -->
+    <section class="section section--tight" aria-label="Information cards placeholder">
+      <h2>Info card heading placeholder</h2>
+      <div class="info-grid">
+        <article class="info-card">
+          <h3>Info card title</h3>
+          <p>Placeholder text inside a bordered info card: 1px border, rounded corners, flat surface, and comfortable padding.</p>
+        </article>
+        <article class="info-card">
+          <h3>Info card title</h3>
+          <p>Placeholder text inside a bordered info card: 1px border, rounded corners, flat surface, and comfortable padding.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= NEWSLETTER (placeholder) ================= -->
+    <section class="section section--tight newsletter" aria-label="Newsletter placeholder">
+      <p class="eyebrow">Newsletter</p>
+      <h2>Newsletter heading placeholder</h2>
+      <p>Placeholder newsletter copy explaining what the signup is for. The form below is a visual placeholder and does not submit anywhere yet.</p>
+      <form class="newsletter-form" action="#" method="get">
+        <input id="newsletter-email" name="email" type="email" placeholder="Email address placeholder" autocomplete="email" aria-label="Email address">
+        <button class="btn" type="submit">Sign up</button>
+      </form>
+      <p class="newsletter-note">Small print placeholder for the newsletter form.</p>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#" aria-label="GTA 6 Chapter 2 — home">
+          <span class="brand__line">GTA 6 <span class="brand__chapter">Chapter 2</span></span>
+          <span class="brand__sub">Port Gellhorn Guides</span>
+        </a>
+        <p>Placeholder brand description for the footer column.</p>
+        <div class="social-row" aria-label="Social links placeholders">
+          <a class="social-btn" href="#placeholder" aria-label="Social link placeholder 1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg></a>
+          <a class="social-btn" href="#placeholder" aria-label="Social link placeholder 2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/></svg></a>
+          <a class="social-btn" href="#placeholder" aria-label="Social link placeholder 3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></a>
+          <a class="social-btn" href="#placeholder" aria-label="Social link placeholder 4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a class="social-btn" href="#placeholder" aria-label="Social link placeholder 5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg></a>
+          <a class="social-btn" href="#placeholder" aria-label="Social link placeholder 6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3>Footer links</h3>
+        <ul class="footer-links">
+          <li><a href="#placeholder">Footer link placeholder</a></li>
+          <li><a href="#placeholder">Footer link placeholder</a></li>
+          <li><a href="#placeholder">Footer link placeholder</a></li>
+          <li><a href="#placeholder">Footer link placeholder</a></li>
+          <li><a href="#placeholder">Footer link placeholder</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col--news">
+        <h3>Newsletter</h3>
+        <p>Placeholder newsletter copy for the footer column.</p>
+        <form class="newsletter-form" action="#" method="get" style="margin-top:18px;">
+          <input id="footer-email" name="email" type="email" placeholder="Email address placeholder" autocomplete="email" aria-label="Email address">
+          <button class="btn" type="submit">Sign up</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <nav aria-label="Legal links placeholders">
+        <a href="#placeholder">Legal link</a><span aria-hidden="true">&middot;</span>
+        <a href="#placeholder">Legal link</a><span aria-hidden="true">&middot;</span>
+        <a href="#placeholder">Legal link</a><span aria-hidden="true">&middot;</span>
+        <a href="#placeholder">Legal link</a>
+      </nav>
+      <p>Placeholder legal and disclaimer text. This footer copy is a placeholder and will be replaced in a later phase.</p>
+      <p>&copy; <span id="year">2026</span> GTA 6 Chapter 2. Placeholder copyright line.</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  /* Mobile navigation: toggle, Escape to close, close on link tap. */
+  var toggle = document.querySelector(".nav-toggle");
+  var nav = document.getElementById("main-nav");
+  if (!toggle || !nav) return;
+
+  function setOpen(open) {
+    nav.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  toggle.addEventListener("click", function () {
+    setOpen(!nav.classList.contains("is-open"));
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { setOpen(false); toggle.focus(); }
+  });
+  nav.addEventListener("click", function (e) {
+    if (e.target.closest("a")) setOpen(false);
+  });
+
+  /* Placeholder forms: no submission yet (Phase 2 will wire these up). */
+  document.querySelectorAll(".newsletter-form").forEach(function (form) {
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+  });
+
+  /* Footer year. */
+  var year = document.getElementById("year");
+  if (year) year.textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
