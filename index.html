@@ -669,18 +669,7 @@ button,input{ font:inherit; }
       <span class="brand__sub">Paradise Lost</span>
     </a>
 
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation">
-      <span aria-hidden="true"></span>
-    </button>
-
-    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
-      <a href="#what-is">What Is</a>
-      <a href="#story">Story</a>
-      <a href="#different">Different</a>
-      <a href="#progression">Progression</a>
-      <a href="#faq">FAQ</a>
-      <a class="btn" href="#what-is">Read the Guide</a>
-    </nav>
+    <!-- Header navigation removed Nov 28: section anchor links deleted; real page links to be added as new pages are built. -->
   </header>
 
   <main id="main">
@@ -693,10 +682,6 @@ button,input{ font:inherit; }
         <p class="lede">GTA 6 Chapter 2 is an important part of the main story in Grand Theft Auto VI, continuing the journey of Jason Duval and Lucia Caminos across the fictional state of Leonida. Known as <strong>Paradise Lost</strong>, this chapter shifts the narrative towards a different environment and introduces new developments in the lives of the two protagonists.</p>
         <p>Players experience a changing balance between story progression, exploration, criminal activities, and character development. Whether you are following the main storyline for the first time or looking for information before continuing your save, understanding the chapter's place in the wider game can make the experience easier to follow.</p>
         <p>This guide explains what GTA 6 Chapter 2 is about, where it fits into the overall narrative, what makes its gameplay experience different, and what players should consider before progressing. It also provides an overview of the dedicated guides covering missions, characters, locations, optional activities, and other chapter-related details.</p>
-        <div class="hero-actions">
-          <a class="btn" href="#what-is">Read the Guide</a>
-          <a class="btn btn--outline" href="#faq">Jump to FAQ</a>
-        </div>
       </div>
     </section>
 
@@ -867,17 +852,6 @@ button,input{ font:inherit; }
         </div>
       </div>
 
-      <div class="footer-col">
-        <h3>Guide sections</h3>
-        <ul class="footer-links">
-          <li><a href="#what-is">What Is GTA 6 Chapter 2?</a></li>
-          <li><a href="#story">Where Chapter 2 Fits Into the Story</a></li>
-          <li><a href="#different">What Makes Chapter 2 Different?</a></li>
-          <li><a href="#progression">How Chapter 2 Progresses</a></li>
-          <li><a href="#faq">Frequently Asked Questions</a></li>
-        </ul>
-      </div>
-
       <div class="footer-col footer-col--news">
         <h3>Newsletter</h3>
         <p>Placeholder newsletter copy for the footer column.</p>
@@ -906,8 +880,7 @@ button,input{ font:inherit; }
   /* Mobile navigation: toggle, Escape to close, close on link tap. */
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.getElementById("main-nav");
-  if (!toggle || !nav) return;
-
+  if (toggle && nav) {
   function setOpen(open) {
     nav.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
@@ -921,6 +894,7 @@ button,input{ font:inherit; }
   nav.addEventListener("click", function (e) {
     if (e.target.closest("a")) setOpen(false);
   });
+  }
 
   /* Placeholder forms: no submission yet (Phase 2 will wire these up). */
   document.querySelectorAll(".newsletter-form").forEach(function (form) {
