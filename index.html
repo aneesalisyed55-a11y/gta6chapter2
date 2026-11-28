@@ -676,7 +676,13 @@ button,input{ font:inherit; }
       <span class="brand__sub">Paradise Lost</span>
     </a>
 
-    <!-- Header navigation removed Nov 28: section anchor links deleted; real page links to be added as new pages are built. -->
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation">
+      <span aria-hidden="true"></span>
+    </button>
+
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+      <a href="/missions/">Missions</a>
+    </nav>
   </header>
 
   <main id="main">
